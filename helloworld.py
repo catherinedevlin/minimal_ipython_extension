@@ -1,4 +1,4 @@
-from IPython.core.magic import Magics, magics_class, line_magic
+from IPython.core.magic import Magics, magics_class, line_magic, cell_magic
 
 #-----------------------------------------------------------------------------
 # Functions and classes
@@ -6,13 +6,13 @@ from IPython.core.magic import Magics, magics_class, line_magic
 
 @magics_class
 class HelloWorldMagics(Magics):
-    """Lightweight persistence for python variables.
+    """A simple Hello, <name> magic.
+    
+    """
 
-    Provides the %store magic."""
-
-    #@skip_doctest
-    @line_magic
-    def helloworld(self, parameter_s=''):
+    @line_magic  # or call with ("hi") to make %hi the magic name
+    @cell_magic  
+    def helloworld(self, line='', cell=None):
         """Virtually empty magic for demonstration purposes.
 
         Example::
@@ -23,10 +23,8 @@ class HelloWorldMagics(Magics):
           Out[2]: u'Hello, Catherine'
         
 
-       """
-
-        opts,argsl = self.parse_options(parameter_s,'drz',mode='string')
-        return "Hello, %s" % argsl
+        """
+        return "Hello, %s\n%s" % (line, cell or "")
        
 def load_ipython_extension(ip):
     """Load the extension in IPython."""
